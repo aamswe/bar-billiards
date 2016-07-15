@@ -1,0 +1,61 @@
+﻿<Window x:Class="Bar_Billiards_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Bar_Billiards_2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="807.086" Width="971.627">
+    <Grid>
+        <Image x:Name="image1" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" VerticalAlignment="Top" Width="450"/>
+        <Image x:Name="image2" HorizontalAlignment="Right" Height="300" Margin="0,10,10,0" VerticalAlignment="Top" Width="450"/>
+
+        <Slider x:Name="MaxHueSlider" HorizontalAlignment="Left" Margin="26,588.999,0,0" VerticalAlignment="Top" Width="284.13" Maximum="355" Minimum="0" TickFrequency="5" TickPlacement="BottomRight" ValueChanged="MaxHue_Changed"/>
+        <Label x:Name="label" Content="Max Hue" HorizontalAlignment="Left" Margin="26,558.039,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+
+        <Slider x:Name="MaxSatSlider" HorizontalAlignment="Left" Margin="313.201,588.999,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1" Minimum="0" TickFrequency="0.1" TickPlacement="BottomRight" ValueChanged="MinSat_Changed"/>
+        <Label x:Name="label_Copy" Content="Max Saturation" HorizontalAlignment="Left" Margin="313.201,558.039,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+
+        <Slider x:Name="MaxLumSlider" HorizontalAlignment="Left" Margin="602.331,588.999,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1" Minimum="0" TickFrequency="0.1" TickPlacement="BottomRight" ValueChanged="MaxLum_Changed"/>
+        <Label x:Name="label_Copy1" Content="Max Luminosity" HorizontalAlignment="Left" Margin="602.331,558.039,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+
+        <Slider x:Name="MinHueSlider" HorizontalAlignment="Left" Margin="26,527.037,0,0" VerticalAlignment="Top" Width="284.13" Maximum="355" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MinHue_Changed"/>
+        <Label x:Name="label_Copy2" Content="Max Hue" HorizontalAlignment="Left" Margin="26,496.077,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+
+        <Slider x:Name="MinSatSlider" HorizontalAlignment="Left" Margin="313.201,527.037,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1" Minimum="0" TickFrequency="0.1" TickPlacement="BottomRight" ValueChanged="MinSat_Changed"/>
+        <Label x:Name="label_Copy3" Content="Max Saturation" HorizontalAlignment="Left" Margin="313.201,496.077,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+
+        <Slider x:Name="MinLumSlider" HorizontalAlignment="Left" Margin="602.331,527.037,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1" Minimum="0" TickFrequency="0.1" TickPlacement="BottomRight" ValueChanged="MinLum_Changed"/>
+        <Label x:Name="label_Copy4" Content="Max Luminosity" HorizontalAlignment="Left" Margin="602.331,496.077,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+
+
+        <Slider x:Name="YSlider" HorizontalAlignment="Left" Margin="26,735.53,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1000" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="Y_Changed"/>
+        <Label x:Name="label_Copy5" Content="Y" HorizontalAlignment="Left" Margin="26,704.57,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="HSlider" HorizontalAlignment="Left" Margin="313.201,735.53,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1000" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="H_Changed"/>
+        <Label x:Name="label_Copy6" Content="H" HorizontalAlignment="Left" Margin="313.201,704.57,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="XSlider" HorizontalAlignment="Left" Margin="26,673.568,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1000" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="X_Changed"/>
+        <Label x:Name="label_Copy7" Content="X" HorizontalAlignment="Left" Margin="26,642.608,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="WSlider" HorizontalAlignment="Left" Margin="313.201,673.568,0,0" VerticalAlignment="Top" Width="284.13" Maximum="1000" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="W_Changed"/>
+        <Label x:Name="label_Copy8" Content="W" HorizontalAlignment="Left" Margin="313.201,642.608,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+
+
+        <Slider x:Name="MaxRedSlider" HorizontalAlignment="Left" Margin="26,445.96,0,0" VerticalAlignment="Top" Width="284.13" Maximum="255" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MaxRed_Changed"/>
+        <Label x:Name="label_Copy9" Content="Max Red" HorizontalAlignment="Left" Margin="26,415,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="MaxGreenSlider" HorizontalAlignment="Left" Margin="313.201,445.96,0,0" VerticalAlignment="Top" Width="284.13" Maximum="255" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MaxGreen_Changed"/>
+        <Label x:Name="label_Copy10" Content="Max Green" HorizontalAlignment="Left" Margin="313.201,415,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="MaxBlueSlider" HorizontalAlignment="Left" Margin="602.331,445.96,0,0" VerticalAlignment="Top" Width="284.13" Maximum="255" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MaxBlue_Changed"/>
+        <Label x:Name="label_Copy11" Content="Max Blue" HorizontalAlignment="Left" Margin="602.331,415,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="MinRedSlider" HorizontalAlignment="Left" Margin="26,391.96,0,0" VerticalAlignment="Top" Width="284.13" Maximum="255" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MinRed_Changed"/>
+        <Label x:Name="label_Copy12" Content="Min Red" HorizontalAlignment="Left" Margin="26,361,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="MinGreenSlider" HorizontalAlignment="Left" Margin="313.201,391.96,0,0" VerticalAlignment="Top" Width="284.13" Maximum="255" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MinGreen_Changed"/>
+        <Label x:Name="label_Copy13" Content="Min Green" HorizontalAlignment="Left" Margin="313.201,361,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Slider x:Name="MinBlueSlider" HorizontalAlignment="Left" Margin="602.331,391.96,0,0" VerticalAlignment="Top" Width="284.13" Maximum="255" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MinBlue_Changed"/>
+        <Label x:Name="label_Copy14" Content="Min Blue" HorizontalAlignment="Left" Margin="602.331,361,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
+        <Label x:Name="lblError" Content="Label" HorizontalAlignment="Left" Margin="503.627,10,0,0" VerticalAlignment="Top" Height="346" Width="450"/>
+
+
+
+
+
+    </Grid>
+</Window>
