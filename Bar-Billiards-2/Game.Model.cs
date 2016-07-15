@@ -1,20 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AForge;
-using AForge.Imaging;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Bar_Billiards_2
 {
     public class Game
     {
-
+        public List<Player> Players { get; set; }
+        public Player CurrentPlayer { get; set; }
+        public List<Mushroom> Mushrooms { get; set; }
+        public List<Pocket> Pockets { get; set; }
+        public List<Ball> Balls { get; set; }
     }
 
-    public class Mushroom : PoolObject { }
+    public class Player
+    {
+        public string Name { get; set; }
+        public int Score { get; set; }
+        public int Bank { get; set; }
+    }
+    
+    public class Mushroom : PoolObject
+    {
+        public bool FullReset { get; set; }
+    }
 
-    public class Pockets : PoolObject { }
+    public class Pocket : PoolObject
+    {
+        public int Points { get; set; }
+    }
 
     public class Ball : PoolObject
     {
@@ -23,14 +36,9 @@ namespace Bar_Billiards_2
 
     public abstract class PoolObject
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float W { get; set; }
-        public float H { get; set; }
-        public List<Point> History { get; set; }
-
-
+        public Point Point { get; set; }
+        public Size Size { get; set; }
+        public List<Rectangle> History { get; set; }
     }
     
-
 }

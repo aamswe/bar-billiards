@@ -50,3 +50,5 @@ C:\Users\andreas.magnusson\Documents\Visual Studio 2015\Projects\Bar-Billiards-2
 C:\Users\andreas.magnusson\Documents\Visual Studio 2015\Projects\Bar-Billiards-2\Bar-Billiards-2\bin\Debug\AForge.Video.VFW.xml
 C:\Users\andreas.magnusson\Documents\Visual Studio 2015\Projects\Bar-Billiards-2\Bar-Billiards-2\bin\Debug\AForge.Video.Ximea.xml
 C:\Users\andreas.magnusson\Documents\Visual Studio 2015\Projects\Bar-Billiards-2\Bar-Billiards-2\bin\Debug\AForge.Vision.xml
+C:\Code\bar-billiards\Bar-Billiards-2\obj\Debug\Bar-Billiards-2.exe
+C:\Code\bar-billiards\Bar-Billiards-2\obj\Debug\Bar-Billiards-2.pdb
