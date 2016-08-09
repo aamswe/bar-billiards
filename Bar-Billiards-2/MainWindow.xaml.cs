@@ -3,6 +3,7 @@ using AForge.Imaging.Filters;
 using AForge.Video;
 using AForge.Video.FFMPEG;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -30,8 +31,9 @@ namespace Bar_Billiards_2
         private int minRed = 0, maxRed = 255;
         private int minGreen = 0, maxGreen = 255;
         private int minBlue = 0, maxBlue = 255;
-        private Font font = new Font("Arial", 16);
-        private Brush brush = new SolidBrush(Color.Blue);
+        private Font font = new Font("Arial", 18, System.Drawing.FontStyle.Bold);
+        private Brush brush = new SolidBrush(Color.CadetBlue);
+        private Game game = new Game();
 
 
         public MainWindow()
@@ -42,10 +44,105 @@ namespace Bar_Billiards_2
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // TODO Calibrate mushroom and pocket positions
+            game.Mushrooms.AddRange(
+                new List<Mushroom>
+                {
+                    new Mushroom { Black = true, rectangle = new Rectangle(new System.Drawing.Point(280, 250), new System.Drawing.Size(50, 50)) },
+                    new Mushroom { Black = true, rectangle = new Rectangle(new System.Drawing.Point(610, 115), new System.Drawing.Size(50, 50)) },
+                    new Mushroom { Black = true, rectangle = new Rectangle(new System.Drawing.Point(610, 115), new System.Drawing.Size(50, 50)) },
+                });
+            game.Pockets.AddRange(new List<Pocket>
+            {
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(300, 250), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(605, 250), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(435, 63), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(435, 440), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 60), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 156), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 250), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 346), new System.Drawing.Size(35, 35)) },
+                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 508), new System.Drawing.Size(35, 35)) },
+            });
+
             VideoFileSource videoSource = new VideoFileSource(@"D:\Temp\shares\2016-07-13 12-51-56.372.wmv");
             videoSource.NewFrame += new NewFrameEventHandler(video_NewFrame);
             videoSource.Start();
         }
+
+        //private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        //{
+        //    try
+        //    {
+        //        var org = cropImage((Bitmap)eventArgs.Frame.Clone(), new Rectangle(x, y, w, h));
+        //        var clone = cropImage((Bitmap)eventArgs.Frame.Clone(), new Rectangle(x, y, w, h));
+
+
+        //        MemoryStream ms = new MemoryStream();
+        //        org.Save(ms, ImageFormat.Bmp);
+        //        ms.Seek(0, SeekOrigin.Begin);
+        //        BitmapImage bi = new BitmapImage();
+        //        bi.BeginInit();
+        //        bi.StreamSource = ms;
+        //        bi.EndInit();
+        //        bi.Freeze();
+        //        Dispatcher.BeginInvoke(new ThreadStart(delegate { image1.Source = bi; }));
+
+        //        Bitmap filteredImage = hsl(clone);
+
+        //        // create filter
+        //        Threshold filter = new Threshold(100);
+        //        // apply the filter
+        //        filter.ApplyInPlace(filteredImage);
+
+        //        var nonIndexed = Indexed2Image(filteredImage);
+
+        //        HoughCircleTransformation circleTransform = new HoughCircleTransformation(100);
+        //        // apply Hough circle transform
+        //        circleTransform.ProcessImage(filteredImage);
+        //        Bitmap houghCirlceImage = circleTransform.ToBitmap();
+        //        // get circles using relative intensity
+        //        HoughCircle[] circles = circleTransform.GetCirclesByRelativeIntensity(0.5);
+
+                
+
+        //        using (var g = Graphics.FromImage(nonIndexed))
+        //        {
+        //            //var mushrooms = blobs.Where(o => o.Rectangle.Height )
+        //            foreach (HoughCircle circle in circles)
+        //            {
+        //                using (var pen = new Pen(Color.Red, width: 3))
+        //                {
+        //                    //g.DrawEllipse(pen, blob.Rectangle);
+        //                    g.DrawEllipse(pen, circle.X - circle.Radius, circle.Y - circle.Radius, circle.X + circle.Radius, circle.Y + circle.Radius);
+        //                    //g.DrawString(string.Format("{0} {1}", blob.Rectangle.Width, blob.Rectangle.Height), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 45));
+        //                    //g.DrawString(string.Format("{0} {1}", blob.Rectangle.X, blob.Rectangle.Y), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 25));
+        //                }
+        //            }
+        //        }
+
+        //        MemoryStream ms2 = new MemoryStream();
+        //        nonIndexed.Save(ms2, ImageFormat.Bmp);
+        //        ms2.Seek(0, SeekOrigin.Begin);
+        //        BitmapImage bi2 = new BitmapImage();
+        //        bi2.BeginInit();
+        //        bi2.StreamSource = ms2;
+        //        bi2.EndInit();
+
+        //        bi2.Freeze();
+        //        Dispatcher.BeginInvoke(new ThreadStart(delegate
+        //        {
+        //            image2.Source = bi2;
+        //        }));
+        //    }
+        //    catch (Exception ex)
+        //    {
+                
+        //        throw;
+        //    }
+            
+
+        //}
 
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
@@ -65,6 +162,10 @@ namespace Bar_Billiards_2
                 Dispatcher.BeginInvoke(new ThreadStart(delegate { image1.Source = bi; }));
 
                 Bitmap filteredImage = hsl(img2);
+                // create filter
+                //Threshold filter = new Threshold(50);
+                //// apply the filter
+                //filter.ApplyInPlace(filteredImage);
 
                 BlobCounter blobCounter = new BlobCounter();
                 blobCounter.MinHeight = 20;
@@ -79,12 +180,26 @@ namespace Bar_Billiards_2
                 {
                     using (var g = Graphics.FromImage(nonIndexed))
                     {
-                        foreach (var blob in blobs.Where(o => o.Rectangle.Width > 20))
+
+                        //var mushrooms = blobs.Where(o => o.Rectangle.Height )
+
+                        //foreach (var blob in blobs.Where(o => o.Rectangle.Width > 30 && o.Rectangle.Width < 40 
+                        //&& o.Rectangle.Height > 30 && o.Rectangle.Height < 40))
+                        //{
+
+                        foreach (var blob in blobs.Where(o => o.Rectangle.Height > 10 && o.Rectangle.Height < 100 && o.Rectangle.Width > 10 && o.Rectangle.Width < 100))
                         {
+                            // exclude blobs part of static objects
+                            if (game.IsBall(blob.Rectangle))
+                            {
+                                game.AddOrUpdateBall(blob);
+                            }
+                            
                             using (var pen = new Pen(Color.Red, width: 3))
                             {
                                 g.DrawEllipse(pen, blob.Rectangle);
-                                g.DrawString(string.Format("{0} {1}", blob.Rectangle.Width, blob.Rectangle.Height), font, brush, new PointF(blob.Rectangle.X, blob.Rectangle.Y));
+                                g.DrawString(string.Format("{0} {1}", blob.Rectangle.Width, blob.Rectangle.Height), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 45));
+                                g.DrawString(string.Format("{0} {1}", blob.Rectangle.X, blob.Rectangle.Y), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 25));
                             }
                         }
                     }
@@ -171,6 +286,13 @@ namespace Bar_Billiards_2
 
             return clone;
         }
+
+        //public static bool IsBetween<T>(this T item, T start, T end)
+        //{
+        //    return Comparer<T>.Default.Compare(item, start) >= 0
+        //        && Comparer<T>.Default.Compare(item, end) <= 0;
+        //}
+
         #endregion
 
         #region Events
