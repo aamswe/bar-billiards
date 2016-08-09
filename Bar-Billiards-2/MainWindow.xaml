@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bar_Billiards_2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="807.086" Width="971.627">
+        Title="MainWindow" Height="807.086" Width="1414.84">
     <Grid>
         <Image x:Name="image1" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" VerticalAlignment="Top" Width="450"/>
-        <Image x:Name="image2" HorizontalAlignment="Right" Height="300" Margin="0,10,10,0" VerticalAlignment="Top" Width="450"/>
+        <Image x:Name="image2" HorizontalAlignment="Right" Height="300" Margin="0,10,453.213,0" VerticalAlignment="Top" Width="450"/>
 
         <Slider x:Name="MaxHueSlider" HorizontalAlignment="Left" Margin="26,588.999,0,0" VerticalAlignment="Top" Width="284.13" Maximum="355" Minimum="0" TickFrequency="5" TickPlacement="BottomRight" ValueChanged="MaxHue_Changed"/>
         <Label x:Name="label" Content="Max Hue" HorizontalAlignment="Left" Margin="26,558.039,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
@@ -51,7 +51,8 @@
         <Label x:Name="label_Copy13" Content="Min Green" HorizontalAlignment="Left" Margin="313.201,361,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
         <Slider x:Name="MinBlueSlider" HorizontalAlignment="Left" Margin="602.331,391.96,0,0" VerticalAlignment="Top" Width="284.13" Maximum="255" Minimum="0" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="MinBlue_Changed"/>
         <Label x:Name="label_Copy14" Content="Min Blue" HorizontalAlignment="Left" Margin="602.331,361,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.607,-0.847"/>
-        <Label x:Name="lblError" Content="Label" HorizontalAlignment="Left" Margin="503.627,10,0,0" VerticalAlignment="Top" Height="346" Width="450"/>
+        <Label x:Name="lblError" Content="Label" HorizontalAlignment="Left" Margin="1014.006,496.077,0,0" VerticalAlignment="Top" Height="264.923" Width="382.834"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="447.471" Margin="1000.07,22.489,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="396.77"/>
 
 
 

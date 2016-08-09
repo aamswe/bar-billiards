@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -33,9 +34,30 @@ namespace Bar_Billiards_2
         private int minBlue = 0, maxBlue = 255;
         private Font font = new Font("Arial", 18, System.Drawing.FontStyle.Bold);
         private Brush brush = new SolidBrush(Color.CadetBlue);
-        private Game game = new Game();
+        private int frameId = 0;
 
-
+        private Game game = new Game
+        {
+            Mushrooms = new List<Mushroom>
+                {
+                    new Mushroom { Id = 1, Black = true, rectangle = new Rectangle(new System.Drawing.Point(280, 250), new System.Drawing.Size(50, 50)) },
+                    new Mushroom { Id = 2, Black = false, rectangle = new Rectangle(new System.Drawing.Point(608, 118), new System.Drawing.Size(50, 50)) },
+                    new Mushroom { Id = 3, Black = false, rectangle = new Rectangle(new System.Drawing.Point(610, 375), new System.Drawing.Size(50, 50)) },
+                },
+            Pockets = new List<Pocket>
+                {
+                    new Pocket { Id = 1, Points = 200, rectangle = new Rectangle(new System.Drawing.Point(318, 250), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 2, Points = 100, rectangle = new Rectangle(new System.Drawing.Point(605, 250), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 3, Points = 50, rectangle = new Rectangle(new System.Drawing.Point(435, 63), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 4, Points = 50, rectangle = new Rectangle(new System.Drawing.Point(435, 440), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 5, Points = 30, rectangle = new Rectangle(new System.Drawing.Point(820, 60), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 6, Points = 20, rectangle = new Rectangle(new System.Drawing.Point(820, 156), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 7, Points = 10, rectangle = new Rectangle(new System.Drawing.Point(820, 250), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 8, Points = 20, rectangle = new Rectangle(new System.Drawing.Point(820, 346), new System.Drawing.Size(35, 35)) },
+                    new Pocket { Id = 9, Points = 30, rectangle = new Rectangle(new System.Drawing.Point(820, 438), new System.Drawing.Size(35, 35)) },
+                }
+        };
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -44,27 +66,6 @@ namespace Bar_Billiards_2
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO Calibrate mushroom and pocket positions
-            game.Mushrooms.AddRange(
-                new List<Mushroom>
-                {
-                    new Mushroom { Black = true, rectangle = new Rectangle(new System.Drawing.Point(280, 250), new System.Drawing.Size(50, 50)) },
-                    new Mushroom { Black = true, rectangle = new Rectangle(new System.Drawing.Point(610, 115), new System.Drawing.Size(50, 50)) },
-                    new Mushroom { Black = true, rectangle = new Rectangle(new System.Drawing.Point(610, 115), new System.Drawing.Size(50, 50)) },
-                });
-            game.Pockets.AddRange(new List<Pocket>
-            {
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(300, 250), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(605, 250), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(435, 63), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(435, 440), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 60), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 156), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 250), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 346), new System.Drawing.Size(35, 35)) },
-                new Pocket { rectangle = new Rectangle(new System.Drawing.Point(820, 508), new System.Drawing.Size(35, 35)) },
-            });
-
             VideoFileSource videoSource = new VideoFileSource(@"D:\Temp\shares\2016-07-13 12-51-56.372.wmv");
             videoSource.NewFrame += new NewFrameEventHandler(video_NewFrame);
             videoSource.Start();
@@ -148,6 +149,7 @@ namespace Bar_Billiards_2
         {
             try
             {
+                frameId = frameId + 1;
                 var img = cropImage((Bitmap)eventArgs.Frame.Clone(), new Rectangle(x, y, w, h));
                 var img2 = cropImage((Bitmap)eventArgs.Frame.Clone(), new Rectangle(x, y, w, h));
 
@@ -180,28 +182,57 @@ namespace Bar_Billiards_2
                 {
                     using (var g = Graphics.FromImage(nonIndexed))
                     {
-
-                        //var mushrooms = blobs.Where(o => o.Rectangle.Height )
-
-                        //foreach (var blob in blobs.Where(o => o.Rectangle.Width > 30 && o.Rectangle.Width < 40 
-                        //&& o.Rectangle.Height > 30 && o.Rectangle.Height < 40))
-                        //{
-
-                        foreach (var blob in blobs.Where(o => o.Rectangle.Height > 10 && o.Rectangle.Height < 100 && o.Rectangle.Width > 10 && o.Rectangle.Width < 100))
+                        var relevantBlobs = blobs.Where(o => o.Rectangle.Height > 10 && o.Rectangle.Height < 100 && o.Rectangle.Width > 10 && o.Rectangle.Width < 100);
+                        foreach (var blob in relevantBlobs)
                         {
-                            // exclude blobs part of static objects
-                            if (game.IsBall(blob.Rectangle))
+
+                            if (blob.Rectangle.X > 280 && blob.Rectangle.X < 330 && blob.Rectangle.Y > 240 && blob.Rectangle.Y < 280)
+                                continue;   // avoid the clusterfuck by black mushroom ... 
+
+                            game.AddOrUpdateBall(blob, frameId);
+
+                            //using (var pen = new Pen(Color.Red, width: 3))
+                            //{
+                            //    g.DrawRectangle(pen, blob.Rectangle.X, blob.Rectangle.Y, 2, 2);
+                            //    g.DrawEllipse(pen, blob.Rectangle);
+                            //    g.DrawString(string.Format("{0} {1}", blob.Rectangle.Width, blob.Rectangle.Height), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 45));
+                            //    g.DrawString(string.Format("{0} {1}", blob.Rectangle.X, blob.Rectangle.Y), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 25));
+                            //}
+                        }
+
+                        // Remove false positives that only exist for a couple of frames
+                        foreach (var ball in game.Balls.Reverse<Ball>())
+                            if (ball.frameId != frameId && ball.History.Count < 2)
+                                game.Balls.Remove(ball);
+
+                        // Remove balls that clearly overlap, this should probably not be needed if we sort the other stuff out... 
+                        foreach (var ball in game.Balls.Reverse<Ball>())
+                        {
+                            foreach (var compareBall in game.Balls.Reverse<Ball>())
                             {
-                                game.AddOrUpdateBall(blob);
-                            }
-                            
-                            using (var pen = new Pen(Color.Red, width: 3))
-                            {
-                                g.DrawEllipse(pen, blob.Rectangle);
-                                g.DrawString(string.Format("{0} {1}", blob.Rectangle.Width, blob.Rectangle.Height), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 45));
-                                g.DrawString(string.Format("{0} {1}", blob.Rectangle.X, blob.Rectangle.Y), font, brush, new PointF(blob.Rectangle.X + 10, blob.Rectangle.Y - 25));
+                                if (ball.Id == compareBall.Id) continue;
+                                if (Math.Abs(ball.rectangle.X - compareBall.rectangle.X) < 10 && Math.Abs(ball.rectangle.Y - compareBall.rectangle.Y) < 10)
+                                    game.Balls.Remove(ball);
                             }
                         }
+
+                        // plot objects on frame
+                        foreach (var mushroom in game.Mushrooms)
+                            using (var pen = new Pen(Color.CornflowerBlue, width: 10))
+                                g.DrawEllipse(pen, mushroom.GetCenterPoint().X, mushroom.GetCenterPoint().Y, 1, 1);
+
+                        foreach (var pocket in game.Pockets)
+                            using (var pen = new Pen(Color.OrangeRed, width: 3))
+                                g.DrawEllipse(pen, pocket.GetCenterPoint().X, pocket.GetCenterPoint().Y, 2, 2);
+
+                        foreach (var ball in game.Balls)
+                            using (var pen = new Pen(Color.GreenYellow, width: 3))
+                            {
+                                g.DrawEllipse(pen, ball.GetCenterPoint().X, ball.GetCenterPoint().Y, 2, 2);
+                                g.DrawString(string.Format($"{ball.Id}"), font, brush, new PointF(ball.rectangle.X + 10, ball.rectangle.Y - 25));
+                            }
+                                
+
                     }
                 }
 
@@ -217,11 +248,23 @@ namespace Bar_Billiards_2
                 Dispatcher.BeginInvoke(new ThreadStart(delegate
                 {
                     image2.Source = bi2;
+
+                    var sb = new StringBuilder();
+                    foreach (var ball in game.Balls.OrderByDescending(o => o.Id).Take(20))
+                    {
+                        sb.AppendLine($"Id: {ball.Id} Coordinates: {ball.rectangle.X}, {ball.rectangle.Y}");
+                    }
+                    textBox1.Text = sb.ToString();
+
                 }));
+
             }
             catch (Exception ex)
             {
-                lblError.Content = ex.ToString();
+                Dispatcher.BeginInvoke(new ThreadStart(delegate
+                {
+                    lblError.Content = ex.ToString();
+                }));
             }
 
         }
@@ -286,12 +329,6 @@ namespace Bar_Billiards_2
 
             return clone;
         }
-
-        //public static bool IsBetween<T>(this T item, T start, T end)
-        //{
-        //    return Comparer<T>.Default.Compare(item, start) >= 0
-        //        && Comparer<T>.Default.Compare(item, end) <= 0;
-        //}
 
         #endregion
 
